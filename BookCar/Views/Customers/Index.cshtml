@@ -1,0 +1,26 @@
+﻿@model IEnumerable<BookCar.Models.Customer>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customers</h2>
+
+<ul>
+    @{
+        @*if (Model.customers.Count == 0)
+            {<text>We dont have any customers yet</text>}*@
+
+
+        foreach (var customer in Model)
+        {
+        
+            <li>@Html.ActionLink(customer.Name, "Details", "Customers", new { Id = customer.Id }, null)</li>
+            <li>@customer.MembershipType.Name</li>
+        }
+    }
+
+</ul>
+
+
+
