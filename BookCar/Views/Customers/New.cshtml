@@ -14,7 +14,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.customer.Name)
         @Html.TextBoxFor(m => m.customer.Name, new { @class = "form-control" })
-
+        @Html.ValidationMessageFor(m=>m.customer.Name)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.customer.BirthDate)

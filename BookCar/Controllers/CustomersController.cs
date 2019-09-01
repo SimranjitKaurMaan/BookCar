@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BookCar.Models;
 using System.Data.Entity;
-using BookCar.ViewModels;
+using BookCar.ViewModels; 
 
 namespace BookCar.Controllers
 {
@@ -15,7 +15,7 @@ namespace BookCar.Controllers
 
         public CustomersController()
         {
-            _context = new ApplicationDbContext();//disposeable object
+            _context = new ApplicationDbContext();//disposable object
         }
 
         protected override void Dispose(bool disposing)
@@ -88,6 +88,16 @@ namespace BookCar.Controllers
         [HttpPost]
         public ActionResult Save(Customer customer)
         {
+            if(!ModelState.IsValid)
+            {
+                var viewmodel = new NewCustomerViewModel
+                {
+                    customer = customer,
+                    Memberships = _context.memberships
+                };
+
+                return View("New",viewmodel);
+            }
             if(customer.Id==0)
             {
                 _context.customers.Add(customer);
