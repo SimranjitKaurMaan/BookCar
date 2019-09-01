@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BookCar.Models;
 using System.Data.Entity;
+using BookCar.ViewModels;
 
 namespace BookCar.Controllers
 {
@@ -49,6 +50,59 @@ namespace BookCar.Controllers
             }
             return Content("Customer not found");
 
+        }
+
+
+        public ActionResult Edit(int id)
+        {
+            var customer = _context.customers.SingleOrDefault(c=>c.Id==id);
+            if(customer==null)
+            {
+                return HttpNotFound();
+
+            }
+
+            var memberships = _context.memberships;
+            var viewmodel = new NewCustomerViewModel
+            {
+                customer = customer,
+                Memberships = memberships
+
+            };
+
+            return View("New",viewmodel);
+        }
+
+        public ActionResult New()
+        {
+            var memberships = _context.memberships;
+            var viewmodel = new NewCustomerViewModel
+            {
+                Memberships = memberships
+               
+            };
+
+            return View(viewmodel);
+        }
+
+        [HttpPost]
+        public ActionResult Save(Customer customer)
+        {
+            if(customer.Id==0)
+            {
+                _context.customers.Add(customer);
+            }
+            else
+            {
+                var customerInDb = _context.customers.Single(c => c.Id == customer.Id);
+                customerInDb.Name = customer.Name;
+                customerInDb.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
+                customerInDb.MembershipType = customer.MembershipType;
+                customerInDb.BirthDate = customer.BirthDate;
+            }
+           
+            _context.SaveChanges();
+            return RedirectToAction("Index","Customers");
         }
 
         private IEnumerable<Customer> GetCustomers()

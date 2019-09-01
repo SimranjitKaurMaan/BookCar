@@ -14,7 +14,7 @@ namespace BookCar.Models
         [Required]
         public string Name { get; set; }
 
-        
+        [Display(Name = "Day of Birth")]
         public DateTime? BirthDate { get; set; }
 
         public bool IsSubscribedToNewsletter { get; set; }
