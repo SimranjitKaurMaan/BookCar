@@ -26,32 +26,35 @@ namespace BookCar.Controllers.API
 
         }
         //GET /api/customers/1
-        public Customer GetCustomer(int id)
+        public IHttpActionResult GetCustomer(int id)
         {
             var customer = _context.customers.SingleOrDefault(c=>c.Id==id);
             if(customer==null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                NotFound();
+                //throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            return customer;
+
+            return Ok(Mapper.Map<Customer,CustomerDto>(customer));
 
         }
 
         //POST /api/customers
         [HttpPost]
-        public CustomerDto CreateCustomer(CustomerDto customerdto)
+        public IHttpActionResult CreateCustomer(CustomerDto customerdto)
         {
             if(!ModelState.IsValid)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                //throw new HttpResponseException(HttpStatusCode.BadRequest);
+                BadRequest();
             }
 
             var customer = Mapper.Map<CustomerDto, Customer>(customerdto);
             _context.customers.Add(customer);
             _context.SaveChanges();
             customerdto.Id = customer.Id;
-            return Mapper.Map<Customer,CustomerDto>(customer);
-
+            // return Mapper.Map<Customer,CustomerDto>(customer);
+            return Created(new Uri(Request.RequestUri + "/" + customer.Id),customerdto);
         }
 
         //PUT /api/customers/1
