@@ -4,21 +4,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Customers</h2>
+  
 
 <ul>
     @{
         @*if (Model.customers.Count == 0)
             {<text>We dont have any customers yet</text>}*@
-
-
-        foreach (var customer in Model)
-        {
-        
-            <li>@Html.ActionLink(customer.Name, "Edit", "Customers", new { Id = customer.Id }, null)</li>
-            <li>@customer.MembershipType.Name</li>
-        }
     }
+    <th>Customers</th>
+    <th>Membership</th>
+    <table>
+        @foreach (var customer in Model)
+        {
+            <tr>
+
+                <td>@Html.ActionLink(customer.Name, "Edit", "Customers", new { Id = customer.Id }, null)</td>
+
+                <td>@customer.MembershipType.Name</td>
+            </tr>
+        }
+
+    </table>
+
 
 </ul>
 

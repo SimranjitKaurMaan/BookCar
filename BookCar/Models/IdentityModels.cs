@@ -22,6 +22,10 @@ namespace BookCar.Models
     {
         public DbSet<Customer> customers { get; set; }
         public DbSet<MembershipType> memberships { get; set; }
+        public DbSet<Rental> rentals { get; set; }
+        public DbSet<Car> cars { get; set; }
+
+        public DbSet<CarType> cartypes { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
